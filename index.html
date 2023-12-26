@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xi-biooidSlide-effect</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="favi/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favi/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favi/favicon-16x16.png">
+    <link rel="manifest" href="favi/site.webmanifest">
+</head>
+<body>
+    <h1>click and slide like a mobile phone and see stunning effect created by complex js</h1>
+    <div id="image-track" data-mouse-down-at="0" data-prev-percentage="0" class="image">
+        <img src="img/Brutal men with beards in cyberpunk style (1).png" alt="" draggable="false" class="image">
+        <img src="img/Coffee.jpg" alt="" draggable="false" class="image">
+        <img src="img/Cyber04 by Efe Anidi (1).png" alt="" draggable="false" class="image">
+        <img src="img/Digital Art_ Solitude and Silence.jpg" alt="" draggable="false" class="image">
+        <img src="img/download (3).jpg" alt="" draggable="false" class="image">
+        <img src="img/Futurista.png" alt="" draggable="false" class="image">
+        <img src="img/Humans 100 years later.jpg" alt="" draggable="false" class="image">
+        <img src="img/vi.jpg" alt="" draggable="false" class="image">
+    </div>
+
+
+        <script>
+    const track = document.getElementById("image-track");
+
+    window.onmousedown = e => {
+        track.dataset.mouseDownAt = e.clientX;
+    }
+
+    window.onmouseup = () => {
+        track.dataset.mouseDownAt = "0";
+        track.dataset.prevPercentage = track.dataset.percentage;
+    }
+
+    window.onmousemove = e => {
+        if (track.dataset.mouseDownAt === '0') return;
+        const mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX;
+        const maxDelta = window.innerWidth / 2;
+        const percentage = (mouseDelta / maxDelta) * -100;
+        const nextPercentage = Math.min(Math.max(parseFloat(track.dataset.prevPercentage) + percentage, -100), 0);
+        track.dataset.percentage = nextPercentage;
+
+        track.animate({
+            transform: `translate(${nextPercentage}%, -50%)`
+        }, {
+            duration: 1200,
+            fill: "forwards"
+        });
+
+        for (const image of track.getElementsByClassName("image")) {
+            image.style.objectPosition = `${100 + nextPercentage}% 50%`;
+        }
+    }
+</script>
+
+
+    
+</body>
+</html>
